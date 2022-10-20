@@ -30,6 +30,7 @@ type metadata struct {
 
 	tlsClientCert string
 	tlsClientKey  string
+	tlsCACert     string
 
 	name           string
 	durableName    string
@@ -70,6 +71,7 @@ func parseMetadata(psm pubsub.Metadata) (metadata, error) {
 
 	m.tlsClientCert = psm.Properties["tls_client_cert"]
 	m.tlsClientKey = psm.Properties["tls_client_key"]
+	m.tlsCACert = psm.Properties["tls_ca_cert"]
 
 	if m.tlsClientCert != "" && m.tlsClientKey == "" {
 		return metadata{}, fmt.Errorf("missing tls client key")

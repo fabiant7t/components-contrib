@@ -57,6 +57,10 @@ func (js *jetstreamPubSub) Init(metadata pubsub.Metadata) error {
 	} else if js.meta.tlsClientCert != "" && js.meta.tlsClientKey != "" {
 		js.l.Debug("Configure nats for tls client authentication")
 		opts = append(opts, nats.ClientCert(js.meta.tlsClientCert, js.meta.tlsClientKey))
+		// Optional CA cert (for self-signed certs, not trusted by the system trust store)
+		if js.meta.tlsCACert != "" {
+			opts = append(opts, nats.RootCAs(js.meta.tlsCACert))
+		}
 	}
 
 	js.nc, err = nats.Connect(js.meta.natsURL, opts...)
